@@ -29,8 +29,8 @@ class SettingsRequest extends FormRequest
             '%description%' => 'nullable | string',
             '%keywords%' => 'string | nullable',
             '%author%' => 'string | nullable',
-            'logo' => 'image | mimes:jpg,jpeg,png,svg | min:0 | max:2048',
-            'favicon' => 'image | mimes:jpg,jpeg,png'
+            'logo' => 'image | mimes:jpg,jpeg,png,svg | min:0 | max:3072',
+            'favicon' => 'image | mimes:jpg,jpeg,png | min:0 | max:3072'
         ]);
         return $rules;
     }

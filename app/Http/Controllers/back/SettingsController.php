@@ -7,6 +7,7 @@ use App\Http\Requests\SettingsRequest;
 use App\Models\Settings;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
+use Intervention\Image\Facades\Image;
 
 class SettingsController extends Controller
 {
@@ -27,7 +28,8 @@ class SettingsController extends Controller
                 File::delete($distIcon);
             }
             $favicon = 'images/favicon/Favicon-' . time() . '.' . $request->favicon->extension();
-            $request->favicon->move(public_path('images/favicon'), $favicon);
+            $img = Image::make($request->favicon)->resize(512, 512);
+            $img->save(public_path($favicon));
             $item->icon = $favicon;
         }
 
@@ -37,7 +39,10 @@ class SettingsController extends Controller
                 File::delete($distLogo);
             }
             $logo = 'images/logo/Logo-' . time() . '.' . $request->logo->extension();
-            $request->logo->move(public_path('images/logo'), $logo);
+            $img = Image::make($request->logo)->resize(300, null, function ($constraint) {
+                $constraint->aspectRatio();
+            });
+            $img->save(public_path($logo));
             $item->logo = $logo;
         }
 
